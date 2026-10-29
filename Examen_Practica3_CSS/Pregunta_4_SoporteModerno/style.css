@@ -1,0 +1,135 @@
+/* =========================================
+   VARIABLES CSS (Con valores de reserva)
+========================================= */
+:root {
+    --primary-bg: #121212;
+    --card-bg-fallback: #2a2a2a;
+    --text-main: #ffffff;
+    --accent: #bb86fc;
+}
+
+/* Requisito: Reset de animaciones a nivel global por si el SO lo pide */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+body {
+    margin: 0; padding: 20px;
+    background-color: var(--primary-bg, #121212);
+    color: var(--text-main, #fff);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Extra: Fondo con gradiente animado */
+    background: linear-gradient(45deg, #121212, #2c1a4d, #121212);
+    background-size: 200% 200%;
+    animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* =========================================
+   FALLBACKS: PREFIJOS Y ORDEN (Requisito)
+========================================= */
+.layout-container {
+    max-width: 900px; margin: 0 auto;
+}
+
+.grid-content {
+    /* Fallback 1: Bloque por defecto */
+    display: block; 
+    
+    /* Fallback 2: Flexbox con prefijos ordenados (-webkit-, -ms-, estándar) */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    
+    /* Moderno: Grid (Si el navegador lo soporta, sobreescribirá todo lo anterior) */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Si el navegador NO soporta 'gap', damos margen para arreglar flexbox */
+@supports not (gap: 20px) {
+    .grid-content { margin-left: -10px; margin-right: -10px; }
+    .glass-profile-card, .info-panel { margin: 10px; flex: 1 1 300px; }
+}
+
+/* =========================================
+   @SUPPORTS: MEJORA PROGRESIVA (Requisito)
+========================================= */
+.glass-profile-card {
+    padding: 30px; border-radius: 20px;
+    text-align: center; position: relative;
+    overflow: hidden;
+    
+    /* 1. Base Funcional (Navegadores antiguos) */
+    background-color: #2a2a2a; /* Fallback si no hay variables */
+    background-color: var(--card-bg-fallback, #2a2a2a);
+    border: 1px solid #444;
+    
+    /* Sombra con prefijo */
+    -webkit-box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* 2. Mejora (Efecto Glassmorphism si está soportado) */
+@supports (backdrop-filter: blur(15px)) or (-webkit-backdrop-filter: blur(15px)) {
+    .glass-profile-card {
+        background-color: rgba(255, 255, 255, 0.05); /* Transparente */
+        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+}
+
+/* Animación de entrada extra */
+.glass-profile-card {
+    animation: floatEntry 1.5s ease-out forwards;
+}
+
+@keyframes floatEntry {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.avatar {
+    width: 80px; height: 80px; margin: 0 auto 15px auto;
+    background: var(--accent, #bb86fc); color: #000;
+    font-size: 2rem; font-weight: bold; line-height: 80px;
+    border-radius: 50%;
+    /* Requisito: Prefijos ordenados */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.stats {
+    display: -webkit-box; display: -ms-flexbox; display: flex;
+    justify-content: center; gap: 20px; margin: 20px 0;
+}
+.stat span { display: block; font-size: 0.8rem; color: #aaa; }
+.stat strong { font-size: 1.2rem; color: var(--accent); }
+
+.btn-modern {
+    background: transparent; color: var(--accent);
+    border: 2px solid var(--accent); padding: 10px 20px;
+    border-radius: 8px; font-weight: bold; cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-modern:hover { background: var(--accent); color: #000; }
+
+.info-panel {
+    background-color: rgba(0,0,0,0.4); padding: 30px; border-radius: 20px;
+}
+.info-panel li { margin-bottom: 10px; color: #ccc; }

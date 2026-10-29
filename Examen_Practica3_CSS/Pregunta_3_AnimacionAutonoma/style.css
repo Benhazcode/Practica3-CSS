@@ -1,0 +1,55 @@
+body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: monospace; }
+
+.sky {
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, #020111 10%, #20124d 50%, #000022 100%);
+    position: relative; display: flex; justify-content: center; align-items: center;
+}
+
+/* Luna con resplandor pulsante continuo */
+.moon {
+    position: absolute; top: 10%; right: 15%; width: 80px; height: 80px;
+    background: #f4f6ff; border-radius: 50%;
+    box-shadow: 0 0 20px #f4f6ff;
+    animation: pulseGlow 4s infinite alternate ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 20px #f4f6ff, 0 0 40px #f4f6ff; }
+    100% { box-shadow: 0 0 40px #f4f6ff, 0 0 80px #fff; }
+}
+
+/* Nubes en movimiento perpetuo (fondo en movimiento) */
+.cloud {
+    position: absolute; background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px; filter: blur(3px);
+}
+.cloud1 { width: 200px; height: 60px; top: 20%; left: -200px; animation: moveClouds 15s linear infinite; }
+.cloud2 { width: 150px; height: 50px; top: 40%; left: -150px; animation: moveClouds 22s linear infinite 5s; }
+.cloud3 { width: 300px; height: 80px; top: 60%; left: -300px; animation: moveClouds 30s linear infinite 2s; }
+
+@keyframes moveClouds {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(120vw); }
+}
+
+.loader-container { text-align: center; color: #0ff; text-shadow: 0 0 5px #0ff; z-index: 10; perspective: 800px; }
+
+.cube-loader {
+    width: 60px; height: 60px; margin: 0 auto 30px auto;
+    transform-style: preserve-3d;
+    animation: rotateCube 4s infinite linear;
+}
+
+.face { position: absolute; width: 60px; height: 60px; border: 2px solid #0ff; background: rgba(0, 255, 255, 0.2); }
+.front  { transform: translateZ(30px); }
+.back   { transform: rotateY(180deg) translateZ(30px); }
+.left   { transform: rotateY(-90deg) translateZ(30px); }
+.right  { transform: rotateY(90deg) translateZ(30px); }
+.top    { transform: rotateX(90deg) translateZ(30px); }
+.bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+@keyframes rotateCube {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
